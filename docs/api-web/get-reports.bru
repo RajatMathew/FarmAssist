@@ -1,0 +1,15 @@
+meta {
+  name: get-reports
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{domain}}/report
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInJvbGVzIjpbInVzZXIiXSwiaWF0IjoxNzI4MTE2MDEwfQ.iayfpP_eej8NgOzsQUHAaLkdsU_InqiRriDyJtDIbbg
+}

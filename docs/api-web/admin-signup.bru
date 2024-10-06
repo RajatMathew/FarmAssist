@@ -1,0 +1,18 @@
+meta {
+  name: admin-signup
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{domain}}/users/signup/admin
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "sid22@gmail.com",
+    "password": "sid123kj"
+  }
+}

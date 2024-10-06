@@ -1,0 +1,21 @@
+meta {
+  name: get-alert-based-on-location
+  type: http
+  seq: 11
+}
+
+get {
+  url: {{domain}}/alert
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsInJvbGVzIjpbImFkbWluIl0sImlhdCI6MTcyODExNzg1MH0.eJfz1efIwHgk7AnOwiddYTjToQOy9-WCbO_3Zv4NW_E
+}
+
+body:json {
+  {
+     "location": "Riverbank Area"
+  }
+}

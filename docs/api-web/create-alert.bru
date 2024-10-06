@@ -1,0 +1,24 @@
+meta {
+  name: create-alert
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{domain}}/alert
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsInJvbGVzIjpbImFkbWluIl0sImlhdCI6MTcyODExNzg1MH0.eJfz1efIwHgk7AnOwiddYTjToQOy9-WCbO_3Zv4NW_E
+}
+
+body:json {
+  {
+    "title": "Flood Warning",
+    "image": "https://example.com/images/flood-warning.jpg",
+    "description": "Heavy rains expected to cause flooding in the area.",
+    "location": "Riverbank Area"
+  }
+}

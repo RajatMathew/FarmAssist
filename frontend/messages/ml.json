@@ -1,0 +1,6 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "app_name": "ഫാം അസിസ്റ്റ് ",
+  "app_description": "FarmAssist is an app that helps farmers manage their crops and livestock.",
+  "welcome": "നമസ്കാരം {name}!"
+}

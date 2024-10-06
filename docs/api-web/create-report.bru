@@ -1,0 +1,23 @@
+meta {
+  name: create-report
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{domain}}/report
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInJvbGVzIjpbInVzZXIiXSwiaWF0IjoxNzI4MTE2MDEwfQ.iayfpP_eej8NgOzsQUHAaLkdsU_InqiRriDyJtDIbbg
+}
+
+body:json {
+  {
+      "title": "string",
+      "image": "string",
+      "description": "string"
+  }
+}

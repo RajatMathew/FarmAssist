@@ -1,0 +1,24 @@
+meta {
+  name: create-crop
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{domain}}/crop
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInJvbGVzIjpbInVzZXIiXSwiaWF0IjoxNzI4MTE2MDEwfQ.iayfpP_eej8NgOzsQUHAaLkdsU_InqiRriDyJtDIbbg
+}
+
+body:json {
+  {
+    "title": "Tomato Crop",
+    "image": "https://example.com/images/tomato.jpg",
+    "description": "A healthy crop of tomatoes.",
+    "location": "Field A"
+  }
+}

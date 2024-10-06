@@ -1,0 +1,15 @@
+meta {
+  name: get-crop-of-user
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{domain}}/crop
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInJvbGVzIjpbInVzZXIiXSwiaWF0IjoxNzI4MTE2MDEwfQ.iayfpP_eej8NgOzsQUHAaLkdsU_InqiRriDyJtDIbbg
+}

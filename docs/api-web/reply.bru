@@ -1,0 +1,22 @@
+meta {
+  name: reply
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{domain}}/reply
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsInJvbGVzIjpbImFkbWluIl0sImlhdCI6MTcyODExNzg1MH0.eJfz1efIwHgk7AnOwiddYTjToQOy9-WCbO_3Zv4NW_E
+}
+
+body:json {
+  {
+    "reportId": 1,
+    "reply": "stay safe"
+  }
+}

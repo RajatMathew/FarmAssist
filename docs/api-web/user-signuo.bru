@@ -1,0 +1,18 @@
+meta {
+  name: user-signuo
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{domain}}/users/signup/user
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "sid2@gmail.com",
+    "password": "sid123kj"
+  }
+}
