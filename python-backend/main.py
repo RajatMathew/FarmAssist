@@ -370,38 +370,41 @@ def determine_flood_probability(weather_data: Dict[str, Any]) -> str:
     cloud_cover = weather_data.get("cloudCover", 0)
     wind_speed = weather_data.get("windSpeed", 0)
     visibility = weather_data.get("visibility", float('inf'))
-
+    
     flood_risk = "Low"
-
+    
+# Determine flood risk
     if precip_intensity > 0.5:
         flood_risk = "High"
     elif precip_intensity > 0.1:
-        flood_risk = "Low"
+        flood_risk = "Medium"
 
     if humidity > 80:
-        flood_risk = "High" if flood_risk != "Low" else "Low"
+        flood_risk = "High" if flood_risk != "Low" else "Medium"
     elif humidity > 60:
-        flood_risk = "Low" if flood_risk != "Low" else "Low"
+        flood_risk = "Medium" if flood_risk != "Low" else "Low"
 
     if cloud_cover > 0.8:
-        flood_risk = "High" if flood_risk != "Low" else "Low"
+        flood_risk = "High" if flood_risk != "Low" else "Medium"
     elif cloud_cover > 0.5:
-        flood_risk = "Low" if flood_risk != "Low" else "Low"
+        flood_risk = "Medium" if flood_risk != "Low" else "Low"
 
     if wind_speed < 5:
-        flood_risk = "Low" if flood_risk != "Low" else "Low"
+        flood_risk = "Medium" if flood_risk != "Low" else "Low"
 
     if visibility < 1:
-        flood_risk = "High" if flood_risk != "Low" else "Low"
+        flood_risk = "High" if flood_risk != "Low" else "Medium"
+
         
         
-            # Suggest crops based on flood risk
+        # Suggest crops based on flood risk
     if flood_risk == "High":
         suggested_crops = ["Rice", "Taro", "Sugarcane", "Jute", "Water spinach"]
-    elif flood_risk == "Low":
+    elif flood_risk == "Medium":
         suggested_crops = ["Sorghum", "Pearl millet", "Cowpea", "Pigeon pea", "Sunflower"]
     else:  # Low flood risk (drought conditions)
         suggested_crops = ["Millet", "Teff", "Chickpea", "Quinoa", "Cassava"]
+
 
     return {
         "flood_risk": flood_risk,
@@ -435,6 +438,79 @@ async def get_flood_risk(location: Location):
             "flood_risk": flood_risk,
             "suggested_crops": suggested_crops
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+class PestPredictionRequest(BaseModel):
+    crop: str
+    temperature: float
+    humidity: float
+    soil_ph: float
+    soil_moisture: float
+
+def predict_pest(crop, temperature, humidity, soil_ph, soil_moisture):
+    # Dataset of crops, pests, and their optimal conditions
+    crop_data = {
+        "Rice": ("Brown Planthopper (BPH)", 27, 33, 70, 90, 5.3, 7.0, 60, 70),
+        "Maize": ("Fall Armyworm", 26, 30, 60, 80, 5.5, 7.0, 80, 100),
+        "Chickpea": ("Chickpea Pod Borer", 25, 32, 50, 70, 6.0, 7.5, 30, 50),
+        "Kidney Beans": ("Mexican Bean Beetle", 25, 29, 50, 70, 6.0, 7.0, 20, 40),
+        "Pigeon Peas": ("Pigeon Pea Midge", 25, 30, 60, 80, 6.0, 7.5, 30, 50),
+        "Moth Beans": ("Moth Bean Pod Borer", 25, 30, 60, 80, 6.0, 7.5, 30, 50),
+        "Mung Beans": ("Mung Bean Yellow Mosaic Virus", 20, 30, 60, 80, 6.0, 7.8, 30, 50),
+        "Black Gram": ("Black Gram Pod Borer", 25, 32, 50, 70, 5.5, 7.0, 30, 50),
+        "Lentil": ("Lentil Aphid", 15, 25, 50, 70, 6.0, 7.0, 20, 40),
+        "Pomegranate": ("Pomegranate Butterfly", 20, 35, 70, 80, 5.5, 7.0, 50, 60),
+        "Banana": ("Banana Weevil", 25, 30, 70, 80, 5.5, 7.0, 40, 60),
+        "Mango": ("Mango Tree Weevil", 25, 30, 60, 80, 6.0, 7.0, 40, 60),
+        "Grapes": ("Grape Berry Moth", 26, 29, 60, 80, 6.0, 7.0, 50, 60),
+        "Watermelon": ("Watermelon Fruit Fly", 24, 29, 60, 70, 6.0, 7.5, 40, 60),
+        "Muskmelon": ("Muskmelon Aphid", 20, 25, 60, 80, 6.0, 7.0, 30, 50),
+        "Apple": ("Codling Moth", 18, 27, 70, 80, 6.0, 7.5, 20, 40),
+        "Orange": ("Citrus Leaf Miner", 21, 29, 60, 80, 5.5, 6.5, 30, 50),
+        "Papaya": ("Papaya Fruit Fly", 20, 25, 60, 80, 6.0, 7.0, 40, 60),
+        "Coconut": ("Coconut Moth", 25, 30, 60, 80, 5.5, 7.0, 30, 50),
+        "Cotton": ("Cotton Bollworm", 25, 30, 60, 80, 5.8, 7.5, 50, 60),
+        "Jute": ("Jute Stem Weevil", 20, 30, 60, 80, 5.5, 7.0, 30, 50),
+        "Coffee": ("Coffee Berry Borer", 18, 25, 50, 90, 6.0, 7.0, 30, 50)
+    }
+    
+    if crop not in crop_data:
+        return None
+    
+    pest, temp_min, temp_max, hum_min, hum_max, ph_min, ph_max, moist_min, moist_max = crop_data[crop]
+    
+    if (temp_min <= temperature <= temp_max and
+        hum_min <= humidity <= hum_max and
+        ph_min <= soil_ph <= ph_max and
+        moist_min <= soil_moisture <= moist_max):
+        return pest
+    
+    return None
+
+@app.post("/my-crop-data")
+async def predict_pest_endpoint(request: PestPredictionRequest):
+    pest = predict_pest(
+        request.crop,
+        request.temperature,
+        request.humidity,
+        request.soil_ph,
+        request.soil_moisture
+    )
+    if pest is None:
+        raise HTTPException(status_code=404, detail="Pest not found for the given conditions")
+    return {"pest": pest}
+
 
 
 
