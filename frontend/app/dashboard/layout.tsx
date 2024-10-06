@@ -5,7 +5,7 @@ import { LanguageSwitchComboBox } from "../components/LanguageSwitchComboBox";
 import React from "react";
 
 import BottomNav from "../components/BottomNav";
-import { Leaf } from "lucide-react";
+import { Leaf, Wheat } from "lucide-react";
 import ProfileCB from "../components/ProfileCB";
 import { Flag, Home, MagnetIcon, SparklesIcon } from "lucide-react";
 
@@ -18,6 +18,7 @@ const navItems = [
   { icon: SparklesIcon, name: "Ask AI", href: "/dashboard/ask-ai" },
   { icon: Flag, name: "Report", href: "/dashboard/report" },
   { icon: MagnetIcon, name: "Prediction", href: "/dashboard/prediction" },
+  { icon: Wheat, name: "My Crop", href: "/dashboard/my-crop" },
 ];
 
 export default function Layout({ children }: LayoutProps) {
